@@ -1,0 +1,299 @@
+// SPDX-License-Identifier: GPL-2.0-only
+// SPDX-FileCopyrightText: Copyright (c) 2023, NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
+
+/dts-v1/;
+
+#include "tegra234-p3737-0000+p3701-0000.dts"
+#include "tegra234-p3737-0000+p3701-xxxx-nv-common.dtsi"
+#include "tegra234-p3701-0000.dtsi"
+
+/ {
+
+	model = "RTD CNV36JRAGX";
+
+	aliases {
+		// UARTA connects to CN8
+		// UARTB connects to E-KEY
+		// UARTE connects to CN7
+		serial3 = "/bus@0/serial@3110000"; 
+		serial1 ="/bus@0/serial@3140000"; //CN7
+		serial2 = "/bus@0/serial@3100000"; //CN8
+	};
+
+	bus@0 {
+                eqos0: ethernet@2310000 {
+			status = "okay";
+			nvidia,mac-addr-idx = <0>;
+			nvidia,max-platform-mtu = <8000>;
+			/* 1=enable, 0=disable */
+			nvidia,pause_frames = <0>;
+			phy-handle = <&phy>;
+			phy-mode = "rgmii-id";
+			nvidia,phy-reset-gpio = <&gpio TEGRA234_MAIN_GPIO(G, 5) 0>;
+	
+			mdio {
+				compatible = "nvidia,eqos-mdio";
+				#address-cells = <1>;
+				#size-cells = <0>;
+	
+				phy: phy@1 {
+					reg = <0x3>;
+					nvidia,phy-rst-pdelay-msec = <224>; /* msec */
+					nvidia,phy-rst-duration-usec = <10000>; /* usec */
+				};
+			};
+		};
+
+		mgbe0: ethernet@6800000 {
+			status = "disabled";
+		};
+        
+		nvpps {
+			status = "disabled";
+			compatible = "nvidia,tegra234-nvpps";
+			primary-emac = <&eqos0>;
+			sec-emac = <&eqos0>;
+			reg = <0x0 0xc6a0000 0x0 0x1000>;
+		};
+
+		i2c@3160000 {
+			status = "okay";
+			gpio@20 {
+				compatible = "maxim,max7312";
+				reg = <0x20>;
+				gpio-controller;
+				#gpio-cells = <2>;
+				gpio-line-names =
+						"sp0_en",
+						"sp0_invdir",
+						"sp0_term",
+						"sp0_mode2",
+						"sp0_mode1",
+						"sp0_mode0",
+						"sp0_slew",
+						"rsvd",
+						"sp1_en",
+						"sp1_invdir",
+						"sp1_term",
+						"sp1_mode2",
+						"sp1_mode1",
+						"sp1_mode0",
+						"sp1_slew",
+						"can_silent";
+
+				vcc-supply = <&vdd_3v3_ao>;
+				status = "okay";
+			};
+		};
+
+		i2c@31e0000{
+			status = "disabled";
+			rt5640: audio-codec@1c {
+				status = "disabled";
+			};
+		};
+		hdr40_i2c1: i2c@c250000 {
+			status="okay";
+                        gpio@20 {
+                                compatible = "maxim,max7312";
+                                reg = <0x20>;
+                                gpio-controller;
+                                #gpio-cells = <2>;
+                                gpio-line-names =
+                                "CN6-1",
+                                "CN6-2",
+                                "CN6-3",
+                                "CN6-4",
+                                "CN6-5",
+                                "CN6-6",
+                                "CN6-7",
+                                "CN6-8",
+                                "CN6-9",
+                                "CN6-10",
+                                "CN6-11",
+                                "CN6-12",
+                                "CN6-13",
+                                "CN6-14",
+                                "reserved",
+                                "5v-enable";
+                                status = "okay";
+                        };
+	       };
+
+
+		serial@3110000 {
+			compatible = "nvidia,tegra194-hsuart";
+			reset-names = "serial";
+			status = "okay";
+		};
+
+		serial@3100000 {
+			compatible = "nvidia,tegra194-hsuart";
+			reset-names = "serial";
+			status = "okay";
+		};
+
+		serial@3140000 {
+			compatible = "nvidia,tegra194-hsuart";
+			reset-names = "serial";
+			status = "okay";
+		};
+
+		pcie@141e0000 {
+			status = "okay";
+			num-lanes = <4>;
+			vddio-pex-ctl-supply = <&vdd_1v8_ao>;
+
+			phys = <&p2u_gbe_0>, <&p2u_gbe_1>, <&p2u_gbe_2>, <&p2u_gbe_3>;
+			phy-names = "p2u-0", "p2u-1", "p2u-2", "p2u-3";
+		};
+
+		pcie@14160000 {
+			status = "okay";
+			num-lanes = <2>;
+			vddio-pex-ctl-supply = <&vdd_1v8_ao>;
+
+			phys = <&p2u_hsio_4>, <&p2u_hsio_5>;
+	 		phy-names = "p2u-0", "p2u-1";
+		};
+
+
+		padctl@3520000 {
+			pads {
+				usb2 {
+					lanes {
+						usb2-0 {
+							nvidia,function = "xusb";
+						};
+						usb2-1 {
+							nvidia,function = "xusb";
+						};
+						usb2-2 {
+							nvidia,function = "xusb";
+						};
+						usb2-3 {
+							nvidia,function = "xusb";
+							status = "okay";	
+						};
+					};
+				};
+				usb3 {
+					lanes {
+						usb3-0 {
+							nvidia,function = "xusb";
+						};
+						usb3-1 {
+							nvidia,function = "xusb";
+						};
+						usb3-2 {
+							nvidia,function = "xusb";
+						};
+					};
+				};
+			};
+
+            		ports {
+				usb2-0 {
+					mode = "host";
+					vbus-supply = <&vbus_0_reg>;                    
+					/delete-property/ usb-role-switch;
+					/delete-node/ port;
+				};
+				usb2-1 {
+					vbus-supply = <&vbus_0_reg>;
+					/delete-node/ port;
+				};
+				usb2-2 {
+					vbus-supply = <&vbus_0_reg>;
+				};
+				usb2-3 {
+					vbus-supply = <&vbus_0_reg>;
+				};
+				usb3-0 {
+					nvidia,usb2-companion = <1>;
+					/delete-node/ port;
+				};
+				usb3-1 {
+					nvidia,usb2-companion = <2>;
+					/delete-node/ port;
+				};
+			};
+		};
+
+		i2c@c240000 {
+			status = "okay";
+			/delete-node/ typec@8;
+		};        
+
+
+	};
+
+    fan: pwm-fan {
+                compatible = "pwm-fan";
+                pwms = <&pwm3 0 80000>;
+                #cooling-cells = <2>;
+        };
+
+	pwm-fan {
+		cooling-levels = <0 66 225 255>;
+	};
+
+	vbus_0_reg: regulator@220 {
+		compatible = "regulator-fixed";
+		reg = <220>;
+		regulator-name = "usb-vbus0-en";
+		regulator-min-microvolt = <1800000>;
+		regulator-max-microvolt = <1800000>;
+		vin-supply = <&vdd_1v8_ao>;
+		gpio = <&gpio TEGRA234_MAIN_GPIO(Z, 1) 0>;
+		regulator-always-on;
+		enable-active-high;
+	};
+
+
+	thermal-zones {
+		tj-thermal {
+			polling-delay = <1000>;
+			polling-delay-passive = <1000>;
+			status = "okay";
+
+			cooling-maps {
+				map-active-0 {
+					cooling-device = <&fan 0 1>;
+					trip = <&tj_trip_active0>;
+				};
+
+				map-active-1 {
+					cooling-device = <&fan 1 2>;
+					trip = <&tj_trip_active1>;
+				};
+
+				map-active-2 {
+					cooling-device = <&fan 2 3>;
+					trip = <&tj_trip_active2>;
+				};
+			};
+
+			trips {
+				tj_trip_active0: active-0 {
+					temperature = <35000>;
+					hysteresis = <4000>;
+					type = "active";
+				};
+
+				tj_trip_active1: active-1 {
+					temperature = <65000>;
+					hysteresis = <4000>;
+					type = "active";
+				};
+
+				tj_trip_active2: active-2 {
+					temperature = <75000>;
+					hysteresis = <4000>;
+					type = "active";
+				};
+			};
+		};
+	};
+
+};

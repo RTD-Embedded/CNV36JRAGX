@@ -1,0 +1,13 @@
+/dts-v1/;
+
+/ {
+	overlay-name = "CNV36JRAGX Tegra234 p3701-0000 Overlay";
+        compatible = "nvidia,p3737-0000+p3701-0000";
+
+	fragment@0 {
+		target-path = "/";
+		__overlay__ {
+			compatible = "nvidia,p3737-0000+p3701-0000", "nvidia,p3701-0000", "nvidia,tegra234";
+		};
+	};
+};

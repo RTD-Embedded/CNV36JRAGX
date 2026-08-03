@@ -1,0 +1,2175 @@
+
+
+#include <dt-bindings/tegra234-p3737-0000+p3701-0000.h>
+
+
+
+/* 
+ #define CAM0_RST_L	TEGRA234_MAIN_GPIO(H, 3)
+ #define CAM0_PWDN	TEGRA234_MAIN_GPIO(H, 6)
+ #define CAM1_RST_L	TEGRA234_MAIN_GPIO(AC, 1)
+ #define CAM1_PWDN	TEGRA234_MAIN_GPIO(AC, 0)*/
+
+ / {
+	fragment-camera@0 {
+		target-path = "/";
+		__overlay__ {
+
+        /*tegra-camera-platform {
+            /**
+            * tpg_max_iso = <>;
+            * Max iso bw for 6 streams of tpg
+            * streams * nvcsi_freq * PG_bitrate / RG10 * BPP
+            * 6 * 102Mhz * 32 bits/ 10 bits * 2 Bps
+            * = 3916.8 MBps
+            
+            tpg_max_iso = <3916800>;
+        };*/
+
+	/* set camera gpio direction to output */
+	/*gpio@2200000 {
+		camera-control-output-low {
+			gpio-hog;
+			output-low;
+			gpios = <CAM0_RST_L 0 CAM0_PWDN 0
+				 CAM1_RST_L 0 CAM1_PWDN 0>;
+			label = "cam0-rst", "cam0-pwdn",
+				"cam1-rst", "cam1-pwdn";
+		};
+	};*/
+
+	/* all cameras are disabled by default */
+	tegra-capture-vi {
+		num-channels = <6>;
+		ports {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			port@0 {
+				reg = <0>;
+				tis_imx390_vi_in0: endpoint {
+					vc-id = <0>;
+					port-index = <0>;
+					bus-width = <2>;
+					remote-endpoint = <&tis_imx390_csi_out0>;
+				};
+			};
+			port@1 {
+				reg = <1>;
+				tis_imx390_vi_in1: endpoint {
+					vc-id = <0>;
+					port-index = <1>;
+					bus-width = <2>;
+					remote-endpoint = <&tis_imx390_csi_out1>;
+				};
+			};
+			port@2 {
+				reg = <2>;
+				tis_imx390_vi_in2: endpoint {
+					vc-id = <0>;
+					port-index = <2>;
+					bus-width = <2>;
+					remote-endpoint = <&tis_imx390_csi_out2>;
+				};
+			};
+			port@3 {
+				reg = <3>;
+				tis_imx390_vi_in3: endpoint {
+					vc-id = <0>;
+					port-index = <3>;
+					bus-width = <2>;
+					remote-endpoint = <&tis_imx390_csi_out3>;
+				};
+			};
+			 
+			port@4 {
+				reg = <4>;
+				tis_imx390_vi_in4: endpoint {
+					vc-id = <0>;
+					port-index = <4>;
+					bus-width = <4>;
+					remote-endpoint = <&tis_imx390_csi_out4>;
+				};
+			}; 
+			port@5 {
+				reg = <5>;
+				tis_imx390_vi_in5: endpoint {
+					vc-id = <0>;
+					port-index = <5>;
+					bus-width = <4>;
+					remote-endpoint = <&tis_imx390_csi_out5>;
+				};
+			};
+			};
+		/*ports {
+			vi_port0: port@0 {
+				status = "disabled";
+				vi_in0: endpoint {
+					vc-id = <0>;
+					status = "disabled";
+				};
+			};
+			vi_port1: port@1 {
+				status = "disabled";
+				vi_in1: endpoint {
+					vc-id = <0>;
+					status = "disabled";
+				};
+			};
+			vi_port2: port@2 {
+				status = "disabled";
+				vi_in2: endpoint {
+					vc-id = <0>;
+					status = "disabled";
+				};
+			};
+			vi_port3: port@3 {
+				status = "disabled";
+				vi_in3: endpoint {
+					vc-id = <0>;
+					status = "disabled";
+				};
+			};
+			vi_port4: port@4 {
+				status = "disabled";
+				vi_in4: endpoint {
+					vc-id = <0>;
+					status = "disabled";
+				};
+			};
+			vi_port5: port@5 {
+				status = "disabled";
+				vi_in5: endpoint {
+					vc-id = <0>;
+					status = "disabled";
+				};
+			};
+			vi_port6: port@6 {
+				status = "disabled";
+				vi_in6: endpoint {
+					vc-id = <0>;
+					status = "disabled";
+				};
+			};
+			vi_port7: port@7 {
+				status = "disabled";
+				vi_in7: endpoint {
+					vc-id = <0>;
+					status = "disabled";
+				};
+			};
+			vi_port8: port@8 {
+				status = "disabled";
+				vi_in8: endpoint {
+					vc-id = <0>;
+					status = "disabled";
+				};
+			};
+			vi_port9: port@9 {
+				status = "disabled";
+				vi_in9: endpoint {
+					vc-id = <0>;
+					status = "disabled";
+				};
+			};
+			vi_port10: port@10 {
+				status = "disabled";
+				vi_in10: endpoint {
+					vc-id = <0>;
+					status = "disabled";
+				};
+			};
+			vi_port11: port@11 {
+				status = "disabled";
+				vi_in11: endpoint {
+					vc-id = <0>;
+					status = "disabled";
+				};
+			};
+		};*/
+	};
+    bus@0 {
+	host1x@13e00000 {
+		nvcsi@15a00000 {
+			num-tpg-channels = <36>;
+			num-channels = <6>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			/*csi_chan0: channel@0 {
+				status = "disabled";
+				ports {
+					csi_chan0_port0: port@0 {
+						status = "disabled";
+						csi_in0: endpoint@0 {
+							status = "disabled";
+						};
+					};
+					csi_chan0_port1: port@1 {
+						status = "disabled";
+						csi_out0: endpoint@1 {
+							status = "disabled";
+						};
+					};
+				};
+			};
+			csi_chan1: channel@1 {
+				status = "disabled";
+				ports {
+					csi_chan1_port0: port@0 {
+						status = "disabled";
+						csi_in1: endpoint@2 {
+							status = "disabled";
+						};
+					};
+					csi_chan1_port1: port@1 {
+						status = "disabled";
+						csi_out1: endpoint@3 {
+							status = "disabled";
+						};
+					};
+				};
+			};
+			csi_chan2: channel@2 {
+				status = "disabled";
+				ports {
+					csi_chan2_port0: port@0 {
+						status = "disabled";
+						csi_in2: endpoint@4 {
+							status = "disabled";
+						};
+					};
+					csi_chan2_port1: port@1 {
+						status = "disabled";
+						csi_out2: endpoint@5 {
+							status = "disabled";
+						};
+					};
+				};
+			};
+			csi_chan3: channel@3 {
+				status = "disabled";
+				ports {
+					csi_chan3_port0: port@0 {
+						status = "disabled";
+						csi_in3: endpoint@6 {
+							status = "disabled";
+						};
+					};
+					csi_chan3_port1: port@1 {
+						status = "disabled";
+						csi_out3: endpoint@7 {
+							status = "disabled";
+						};
+					};
+				};
+			};
+			csi_chan4: channel@4 {
+				status = "disabled";
+				ports {
+					csi_chan4_port0: port@0 {
+						status = "disabled";
+						csi_in4: endpoint@8 {
+							status = "disabled";
+						};
+					};
+					csi_chan4_port1: port@1 {
+						status = "disabled";
+						csi_out4: endpoint@9 {
+							status = "disabled";
+						};
+					};
+				};
+			};
+			csi_chan5: channel@5 {
+				status = "disabled";
+				ports {
+					csi_chan5_port0: port@0 {
+						status = "disabled";
+						csi_in5: endpoint@10 {
+							status = "disabled";
+						};
+					};
+					csi_chan5_port1: port@1 {
+						status = "disabled";
+						csi_out5: endpoint@11 {
+							status = "disabled";
+						};
+					};
+				};
+			};
+			csi_chan6: channel@6 {
+				status = "disabled";
+				ports {
+					csi_chan6_port0: port@0 {
+						status = "disabled";
+						csi_in6: endpoint@12 {
+							status = "disabled";
+						};
+					};
+					csi_chan6_port1: port@1 {
+						status = "disabled";
+						csi_out6: endpoint@13 {
+							status = "disabled";
+						};
+					};
+				};
+			};
+			csi_chan7: channel@7 {
+				status = "disabled";
+				ports {
+					csi_chan7_port0: port@0 {
+						status = "disabled";
+						csi_in7: endpoint@14 {
+							status = "disabled";
+						};
+					};
+					csi_chan7_port1: port@1 {
+						status = "disabled";
+						csi_out7: endpoint@15 {
+							status = "disabled";
+						};
+					};
+				};
+			};
+			csi_chan8: channel@8 {
+				status = "disabled";
+				ports {
+					csi_chan8_port0: port@0 {
+						status = "disabled";
+						csi_in8: endpoint@16 {
+							status = "disabled";
+						};
+					};
+					csi_chan8_port1: port@1 {
+						status = "disabled";
+						csi_out8: endpoint@17 {
+							status = "disabled";
+						};
+					};
+				};
+			};
+			csi_chan9: channel@9 {
+				status = "disabled";
+				ports {
+					csi_chan9_port0: port@0 {
+						status = "disabled";
+						csi_in9: endpoint@18 {
+							status = "disabled";
+						};
+					};
+					csi_chan9_port1: port@1 {
+						status = "disabled";
+						csi_out9: endpoint@19 {
+							status = "disabled";
+						};
+					};
+				};
+			};
+			csi_chan10: channel@10 {
+				status = "disabled";
+				ports {
+					csi_chan10_port0: port@0 {
+						status = "disabled";
+						csi_in10: endpoint@20 {
+							status = "disabled";
+						};
+					};
+					csi_chan10_port1: port@1 {
+						status = "disabled";
+						csi_out10: endpoint@21 {
+							status = "disabled";
+						};
+					};
+				};
+			};
+			csi_chan11: channel@11 {
+				status = "disabled";
+				ports {
+					csi_chan11_port0: port@0 {
+						status = "disabled";
+						csi_in11: endpoint@22 {
+							status = "disabled";
+						};
+					};
+					csi_chan11_port1: port@1 {
+						status = "disabled";
+						csi_out11: endpoint@23 {
+							status = "disabled";
+						};
+					};
+				};
+			};
+		};
+		*/
+		channel@0 {
+				reg = <0>;
+				ports {
+					#address-cells = <1>;
+					#size-cells = <0>;
+					port@0 {
+						reg = <0>;
+						tis_imx390_csi_in0: endpoint@0 {
+							port-index = <0>;
+							bus-width = <2>;
+							remote-endpoint = <&tis_imx390_out0>;
+						};
+					};
+					port@1 {
+						reg = <1>;
+						tis_imx390_csi_out0: endpoint@1 {
+							remote-endpoint = <&tis_imx390_vi_in0>;
+						};
+					};
+				};
+			};
+			channel@1 {
+				reg = <1>;
+				ports {
+					#address-cells = <1>;
+					#size-cells = <0>;
+					port@0 {
+						reg = <0>;
+						tis_imx390_csi_in1: endpoint@2 {
+							port-index = <1>;
+							bus-width = <2>;
+							remote-endpoint = <&tis_imx390_out1>;
+						};
+					};
+					port@1 {
+						reg = <1>;
+						tis_imx390_csi_out1: endpoint@3 {
+							remote-endpoint = <&tis_imx390_vi_in1>;
+						};
+					};
+				};
+			};
+			channel@2 {
+				reg = <2>;
+				ports {
+					#address-cells = <1>;
+					#size-cells = <0>;
+					port@0 {
+						reg = <0>;
+						tis_imx390_csi_in2: endpoint@4 {
+							port-index = <2>;
+							bus-width = <2>;
+							remote-endpoint = <&tis_imx390_out2>;
+						};
+					};
+					port@1 {
+						reg = <1>;
+						tis_imx390_csi_out2: endpoint@5 {
+							remote-endpoint = <&tis_imx390_vi_in2>;
+						};
+					};
+				};
+			};
+			channel@3 {
+				reg = <3>;
+				ports {
+					#address-cells = <1>;
+					#size-cells = <0>;
+					port@0 {
+						reg = <0>;
+						tis_imx390_csi_in3: endpoint@6 {
+							port-index = <3>;
+							bus-width = <2>;
+							remote-endpoint = <&tis_imx390_out3>;
+						};
+					};
+					port@1 {
+						reg = <1>;
+						tis_imx390_csi_out3: endpoint@7 {
+							remote-endpoint = <&tis_imx390_vi_in3>;
+						};
+					};
+				};
+			}; 
+			channel@4 {
+				reg = <4>;
+				ports {
+					#address-cells = <1>;
+					#size-cells = <0>;
+					port@0 {
+						reg = <0>;
+						tis_imx390_csi_in4: endpoint@8 {
+							port-index = <4>;
+							bus-width = <4>;
+							remote-endpoint = <&tis_imx390_out4>;
+						};
+					};
+					port@1 {
+						reg = <1>;
+						tis_imx390_csi_out4: endpoint@9 {
+							remote-endpoint = <&tis_imx390_vi_in4>;
+						};
+					};
+				};
+			};
+			channel@5 {
+				reg = <5>;
+				ports {
+					#address-cells = <1>;
+					#size-cells = <0>;
+					port@0 {
+						reg = <0>;
+						tis_imx390_csi_in5: endpoint@a {
+							port-index = <6>;
+							bus-width = <4>;
+							remote-endpoint = <&tis_imx390_out5>;
+						};
+					};
+					port@1 {
+						reg = <1>;
+						tis_imx390_csi_out5: endpoint@b {
+							remote-endpoint = <&tis_imx390_vi_in5>;
+						};
+					};
+				};
+			};
+		};
+
+
+
+
+	};
+
+
+	i2c@3180000 {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		status = "okay";
+		nvidia,disable-multi-pkt-mode;
+
+		tis_fpdlink_a: tis_fpdlink@30 {
+			compatible = "tis,tis-fpdlink";
+			status = "okay";
+			reg = <0x30>;
+			gpio_addr_base = /bits/ 8 <0x60>;
+			gpio-controller;
+			#gpio-cells = <2>;
+			ngpios = <8>;
+			deser_lanes = <2>;
+			deser_chan_addrs = /bits/ 8 <0x41 0x42>;
+			
+			sensors = <&tis_imx390_a>;
+			
+			tis_fpdlink_a_input {
+				status = "okay";
+				input;
+				gpios = <0x7 0x0>;
+				gpio-line-names = "tis_fpdlink_a_chn0_input_0";
+				//line-name = "tis_fpdlink_a_chn0_input_0";
+			};
+			tis_fpdlink_a_outlow {
+				status = "okay";
+				//gpio-hog;
+				output-low;
+				gpios = <0x0 0x0 0x1 0x0 0x2 0x0 0x3 0x0 0x4 0x0 0x5 0x0 0x6 0x1>;
+				gpio-line-names = "tis_fpdlink_a_chn0_CAM_PWR", "tis_fpdlink_a_chn0_RESET", "tis_fpdlink_a_chn0_GPOUT_LEVEL", "tis_fpdlink_a_chn0_GPOUT_PUSHPULL", "tis_fpdlink_a_chn0_GPOUT_SELECT", "tis_fpdlink_a_chn0_TRIG_LVL_SEL", "tis_fpdlink_a_chn0_TRIG_SRC_SEL";
+				//line-name = "tis_fpdlink_a_chn0_CAM_PWR", "tis_fpdlink_a_chn0_RESET", "tis_fpdlink_a_chn0_GPOUT_LEVEL", "tis_fpdlink_a_chn0_GPOUT_PUSHPULL", "tis_fpdlink_a_chn0_GPOUT_SELECT", "tis_fpdlink_a_chn0_TRIG_LVL_SEL", "tis_fpdlink_a_chn0_TRIG_SRC_SEL";
+			};
+			tis_fpdlink_a_outhigh {
+				status = "disabled";
+			};
+			
+		};
+
+		tis_fpdlink_b: tis_fpdlink@32 {
+			compatible = "tis,tis-fpdlink";
+			status = "okay";
+			reg = <0x32>;
+			gpio_addr_base = /bits/ 8 <0x62>;          // ?????????????
+			gpio-controller;
+			#gpio-cells = <2>;
+			ngpios = <8>;
+			deser_lanes = <2>;
+			deser_chan_addrs = /bits/ 8 <0x43 044>;
+			
+			sensors = <&tis_imx390_b>;
+			
+			tis_fpdlink_b_input {
+				status = "okay";
+				input;
+				gpios = <0x7 0x0>;
+				label = "tis_fpdlink_a_chn0_input_0";
+				//line-name = "tis_fpdlink_a_chn0_input_0";
+			};
+			tis_fpdlink_b_outlow {
+				status = "okay";
+				//gpio-hog;
+				output-low;
+				gpios = <0x0 0x0 0x1 0x0 0x2 0x0 0x3 0x0 0x4 0x0 0x5 0x0 0x6 0x1>;
+				label = "tis_fpdlink_a_chn0_CAM_PWR", "tis_fpdlink_a_chn0_RESET", "tis_fpdlink_a_chn0_GPOUT_LEVEL", "tis_fpdlink_a_chn0_GPOUT_PUSHPULL", "tis_fpdlink_a_chn0_GPOUT_SELECT", "tis_fpdlink_a_chn0_TRIG_LVL_SEL", "tis_fpdlink_a_chn0_TRIG_SRC_SEL";
+				
+				//line-name = "tis_fpdlink_a_chn0_CAM_PWR", "tis_fpdlink_a_chn0_RESET", "tis_fpdlink_a_chn0_GPOUT_LEVEL", "tis_fpdlink_a_chn0_GPOUT_PUSHPULL", "tis_fpdlink_a_chn0_GPOUT_SELECT", "tis_fpdlink_a_chn0_TRIG_LVL_SEL", "tis_fpdlink_a_chn0_TRIG_SRC_SEL";
+			};
+			tis_fpdlink_b_outhigh {
+				status = "disabled";
+			};
+		};
+
+		tis_fpdlink_c: tis_fpdlink@34 {
+			compatible = "tis,tis-fpdlink";
+			status = "okay";
+			reg = <0x34>;
+			gpio_addr_base = /bits/ 8 <0x64>;          // ?????????????
+			gpio-controller;
+			#gpio-cells = <2>;
+			ngpios = <8>;
+			deser_lanes = <2>;
+			deser_chan_addrs = /bits/ 8 <0x45 0x46>;
+			
+			sensors = <&tis_imx390_c>;
+			
+			tis_fpdlink_c_input {
+				status = "okay";
+				input;
+				gpios = <0x7 0x0>;
+				label = "tis_fpdlink_a_chn0_input_0";
+				//line-name = "tis_fpdlink_a_chn0_input_0";
+			};
+			tis_fpdlink_c_outlow {
+				status = "okay";
+				//gpio-hog;
+				output-low;
+				gpios = <0x0 0x0 0x1 0x0 0x2 0x0 0x3 0x0 0x4 0x0 0x5 0x0 0x6 0x1>;
+				label = "tis_fpdlink_a_chn0_CAM_PWR", "tis_fpdlink_a_chn0_RESET", "tis_fpdlink_a_chn0_GPOUT_LEVEL", "tis_fpdlink_a_chn0_GPOUT_PUSHPULL", "tis_fpdlink_a_chn0_GPOUT_SELECT", "tis_fpdlink_a_chn0_TRIG_LVL_SEL", "tis_fpdlink_a_chn0_TRIG_SRC_SEL";
+				
+				//line-name = "tis_fpdlink_a_chn0_CAM_PWR", "tis_fpdlink_a_chn0_RESET", "tis_fpdlink_a_chn0_GPOUT_LEVEL", "tis_fpdlink_a_chn0_GPOUT_PUSHPULL", "tis_fpdlink_a_chn0_GPOUT_SELECT", "tis_fpdlink_a_chn0_TRIG_LVL_SEL", "tis_fpdlink_a_chn0_TRIG_SRC_SEL";
+			};
+			tis_fpdlink_c_outhigh {
+				status = "disabled";
+			};
+		};
+
+		tis_fpdlink_d: tis_fpdlink@36 {
+			compatible = "tis,tis-fpdlink";
+			status = "okay";
+			reg = <0x36>;
+			gpio_addr_base = /bits/ 8 <0x66>;          // ?????????????
+			gpio-controller;
+			#gpio-cells = <2>;
+			ngpios = <8>;
+			deser_lanes = <2>;
+			deser_chan_addrs = /bits/ 8 <0x47 0x48>;
+			
+			sensors = <&tis_imx390_d>;
+			
+			tis_fpdlink_d_input {
+				status = "okay";
+				input;
+				gpios = <0x7 0x0>;
+				label = "tis_fpdlink_a_chn0_input_0";
+				//line-name = "tis_fpdlink_a_chn0_input_0";
+			};
+			tis_fpdlink_d_outlow {
+				status = "okay";
+				//gpio-hog;
+				output-low;
+				gpios = <0x0 0x0 0x1 0x0 0x2 0x0 0x3 0x0 0x4 0x0 0x5 0x0 0x6 0x1>;
+				label = "tis_fpdlink_a_chn0_CAM_PWR", "tis_fpdlink_a_chn0_RESET", "tis_fpdlink_a_chn0_GPOUT_LEVEL", "tis_fpdlink_a_chn0_GPOUT_PUSHPULL", "tis_fpdlink_a_chn0_GPOUT_SELECT", "tis_fpdlink_a_chn0_TRIG_LVL_SEL", "tis_fpdlink_a_chn0_TRIG_SRC_SEL";
+				
+				//line-name = "tis_fpdlink_a_chn0_CAM_PWR", "tis_fpdlink_a_chn0_RESET", "tis_fpdlink_a_chn0_GPOUT_LEVEL", "tis_fpdlink_a_chn0_GPOUT_PUSHPULL", "tis_fpdlink_a_chn0_GPOUT_SELECT", "tis_fpdlink_a_chn0_TRIG_LVL_SEL", "tis_fpdlink_a_chn0_TRIG_SRC_SEL";
+			};
+			tis_fpdlink_d_outhigh {
+				status = "disabled";
+			};
+		};
+		tis_fpdlink_e: tis_fpdlink@3c { // 3d 
+			compatible = "tis,tis-fpdlink";
+			status = "okay";
+			reg = <0x3c>;
+			gpio_addr_base = /bits/ 8 <0x68>;          // ?????????????
+			gpio-controller;
+			#gpio-cells = <2>;
+			ngpios = <8>;
+			deser_lanes = <4>;
+			deser_chan_addrs = /bits/ 8 <0x49 0x4a>;
+			
+			sensors = <&tis_imx390_e>;
+			
+			tis_fpdlink_e_input {
+				status = "okay";
+				input;
+				gpios = <0x7 0x0>;
+				label = "tis_fpdlink_a_chn0_input_0";
+
+				//line-name = "tis_fpdlink_a_chn0_input_0";
+			};
+			tis_fpdlink_e_outlow {
+				status = "okay";
+				//gpio-hog;
+				output-low;
+				gpios = <0x0 0x0 0x1 0x0 0x2 0x0 0x3 0x0 0x4 0x0 0x5 0x0 0x6 0x1>;
+				label = "tis_fpdlink_a_chn0_CAM_PWR", "tis_fpdlink_a_chn0_RESET", "tis_fpdlink_a_chn0_GPOUT_LEVEL", "tis_fpdlink_a_chn0_GPOUT_PUSHPULL", "tis_fpdlink_a_chn0_GPOUT_SELECT", "tis_fpdlink_a_chn0_TRIG_LVL_SEL", "tis_fpdlink_a_chn0_TRIG_SRC_SEL";
+				
+				//line-name = "tis_fpdlink_a_chn0_CAM_PWR", "tis_fpdlink_a_chn0_RESET", "tis_fpdlink_a_chn0_GPOUT_LEVEL", "tis_fpdlink_a_chn0_GPOUT_PUSHPULL", "tis_fpdlink_a_chn0_GPOUT_SELECT", "tis_fpdlink_a_chn0_TRIG_LVL_SEL", "tis_fpdlink_a_chn0_TRIG_SRC_SEL";
+			};
+			tis_fpdlink_e_outhigh {
+				status = "disabled";
+			};
+		};
+
+		tis_fpdlink_f: tis_fpdlink@3d { // 3d 
+			compatible = "tis,tis-fpdlink";
+			status = "okay";
+			reg = <0x3d>;
+			gpio_addr_base = /bits/ 8 <0x6a>;          // ?????????????
+			gpio-controller;
+			#gpio-cells = <2>;
+			ngpios = <8>;
+			deser_lanes = <4>;
+			deser_chan_addrs = /bits/ 8 <0x4b 0x4c>;
+			
+			sensors = <&tis_imx390_f>;
+			
+			tis_fpdlink_f_input {
+				status = "okay";
+				input;
+				gpios = <0x7 0x0>;
+				label = "tis_fpdlink_a_chn0_input_0";
+
+				//line-name = "tis_fpdlink_a_chn0_input_0";
+			};
+			tis_fpdlink_f_outlow {
+				status = "okay";
+				//gpio-hog;
+				output-low;
+				gpios = <0x0 0x0 0x1 0x0 0x2 0x0 0x3 0x0 0x4 0x0 0x5 0x0 0x6 0x1>;
+				label = "tis_fpdlink_a_chn0_CAM_PWR", "tis_fpdlink_a_chn0_RESET", "tis_fpdlink_a_chn0_GPOUT_LEVEL", "tis_fpdlink_a_chn0_GPOUT_PUSHPULL", "tis_fpdlink_a_chn0_GPOUT_SELECT", "tis_fpdlink_a_chn0_TRIG_LVL_SEL", "tis_fpdlink_a_chn0_TRIG_SRC_SEL";
+				
+				//line-name = "tis_fpdlink_a_chn0_CAM_PWR", "tis_fpdlink_a_chn0_RESET", "tis_fpdlink_a_chn0_GPOUT_LEVEL", "tis_fpdlink_a_chn0_GPOUT_PUSHPULL", "tis_fpdlink_a_chn0_GPOUT_SELECT", "tis_fpdlink_a_chn0_TRIG_LVL_SEL", "tis_fpdlink_a_chn0_TRIG_SRC_SEL";
+			};
+			tis_fpdlink_f_outhigh {
+				status = "disabled";
+			};
+		};
+
+			tis_imx390_a: tis_imx390@1a {
+				compatible = "tis,tis_imx390";
+				reg = <0x1a>;
+				reg-tis_eeprom = <0x50>;
+				reg-nv_eeprom = <0x57>;
+				status = "okay";
+				reset-gpios = <&tis_fpdlink_a 1 GPIO_ACTIVE_HIGH>;
+				pwdn-gpios = <&tis_fpdlink_a 0 GPIO_ACTIVE_HIGH>;
+				gpoutlevel-gpios = <&tis_fpdlink_a 2 GPIO_ACTIVE_HIGH>;
+				gpoutpushpull-gpios = <&tis_fpdlink_a 3 GPIO_ACTIVE_HIGH>;
+				gpoutselect-gpios = <&tis_fpdlink_a 4 GPIO_ACTIVE_HIGH>;
+				triglvlsel-gpios = <&tis_fpdlink_a 5 GPIO_ACTIVE_HIGH>;
+				trigsrcsel-gpios = <&tis_fpdlink_a 6 GPIO_ACTIVE_HIGH>;
+				devnode = "video0";
+				physical_w = "5.640";
+				physical_h = "3.216";
+				sensor_model = "imx390";
+				use_decibel_gain = "true";
+				use_sensor_mode_id = "true";
+				fpdlink = <&tis_fpdlink_a>;
+				fpdlink_signals = "default";
+				
+				fpdlink_clkout_hz = <27000000>;
+				fpdlink_slave_map = /bits/ 8 <0x21 0x1a 0x50 0x50 0x57 0x57>;
+				fpdlink_ser_map_addr = /bits/ 8 <0x21>;
+				fpdlink_ser_lanes = <2>;
+				fpdlink_vc_map = /bits/ 8 <0x0>;
+				fpdlink_coax_pwr_gpio = /bits/ 8 <5>;
+				
+				/*mode0 {
+					mclk_khz = "27000";
+					num_lanes = "2";
+					mode_lanes = <4>;
+					tegra_sinterface = "serial_a";
+					lane_polarity = "0";
+					vc_id = "0";
+					phy_mode = "DPHY";
+					discontinuous_clk = "yes";
+					dpcm_enable = "false";
+					cil_settletime = "0";
+					
+					//serdes_pix_clk_hz = "3200000000";
+					serdes_pix_clk_hz ="114285714"; 
+					raw_fourcc_color = "PWL3";
+					raw_fourcc_mono = "PWL3";
+					active_h = "1204";
+					dynamic_pixel_bit_depth = "24";
+					mode_type = "bayer_wdr_pwl";
+					num_control_point = "9";
+					control_point_x_0 = "384";
+					control_point_x_1 = "1600";
+					control_point_x_2 = "3700";
+					control_point_x_3 = "24000";
+					control_point_x_4 = "73000";
+					control_point_x_5 = "210392";
+					control_point_x_6 = "1500000";
+					control_point_x_7 = "5000000";
+					control_point_x_8 = "16777215";
+					control_point_y_0 = "384";
+					control_point_y_1 = "789";
+					control_point_y_2 = "1022";
+					control_point_y_3 = "1278";
+					control_point_y_4 = "1586";
+					control_point_y_5 = "2019";
+					control_point_y_6 = "2415";
+					control_point_y_7 = "2951";
+					control_point_y_8 = "3854";
+					active_w = "1920";
+					csi_pixel_bit_depth = "12";
+					pixel_phase = "rggb";
+					readout_orientation = "0";
+					line_length = "3924";
+					inherent_gain = "1";
+					//pix_clk_hz = "297000000";
+					pix_clk_hz = "69350400";
+					gain_factor = "10";
+					framerate_factor = "1000000";
+					exposure_factor = "1000000";
+					min_gain_val = "0";
+					max_gain_val = "270";
+					step_gain_val = "3";
+					default_gain = "270";
+					min_hdr_ratio = "16";
+					max_hdr_ratio = "16";
+					min_framerate = "2000000";
+					max_framerate = "50000000";
+					step_framerate = "1";
+					default_framerate = "15000000";
+					min_exp_time = "15";
+					max_exp_time = "100000";
+					step_exp_time = "1";
+					default_exp_time = "16650";
+					embedded_metadata_height = "1";
+				};
+				mode1 {
+					mclk_khz = "27000";
+					num_lanes = "2";
+					mode_lanes = <4>;
+					tegra_sinterface = "serial_a";
+					vc_id = "0";
+					lane_polarity = "0";
+					phy_mode = "DPHY";
+					discontinuous_clk = "yes";
+					dpcm_enable = "false";
+					cil_settletime = "0";
+
+					//serdes_pix_clk_hz = "3200000000";
+					serdes_pix_clk_hz ="114285714"; 
+					raw_fourcc_color = "RG16";
+					raw_fourcc_mono = "Y16 ";
+					active_h = "1204";
+					active_w = "1920";
+					dynamic_pixel_bit_depth = "12";
+					csi_pixel_bit_depth = "12";
+					mode_type = "bayer";
+					pixel_phase = "rggb";
+					readout_orientation = "0";
+					line_length = "3924";
+					inherent_gain = "1";
+					//pix_clk_hz = "297000000";
+					pix_clk_hz = "69350400";
+					gain_factor = "10";
+					framerate_factor = "1000000";
+					exposure_factor = "1000000";
+					min_gain_val = "0";
+					max_gain_val = "270";
+					step_gain_val = "3";
+					default_gain = "270";
+					min_hdr_ratio = "16";
+					max_hdr_ratio = "16";
+					min_framerate = "2000000";
+					max_framerate = "50000000";
+					step_framerate = "1";
+					default_framerate = "15000000";
+					min_exp_time = "15";
+					max_exp_time = "100000";
+					step_exp_time = "1";
+					default_exp_time = "16650";
+					embedded_metadata_height = "1";
+				};
+				mode2 {
+					mclk_khz = "27000";
+					num_lanes = "2";
+					mode_lanes = <4>;
+					lane_polarity = "0";
+					tegra_sinterface = "serial_a";
+					vc_id = "0";
+					phy_mode = "DPHY";
+					discontinuous_clk = "yes";
+					dpcm_enable = "false";
+					cil_settletime = "0";
+
+					//serdes_pix_clk_hz = "3200000000";
+					serdes_pix_clk_hz ="114285714"; 
+
+					raw_fourcc_color = "PWL3";
+					raw_fourcc_mono = "PWL3";
+					dynamic_pixel_bit_depth = "24";
+					mode_type = "bayer_wdr_pwl";
+					num_control_point = "9";
+					control_point_x_0 = "384";
+					control_point_x_1 = "1600";
+					control_point_x_2 = "3700";
+					control_point_x_3 = "24000";
+					control_point_x_4 = "73000";
+					control_point_x_5 = "210392";
+					control_point_x_6 = "1500000";
+					control_point_x_7 = "5000000";
+					control_point_x_8 = "16777215";
+					control_point_y_0 = "384";
+					control_point_y_1 = "789";
+					control_point_y_2 = "1022";
+					control_point_y_3 = "1278";
+					control_point_y_4 = "1586";
+					control_point_y_5 = "2019";
+					control_point_y_6 = "2415";
+					control_point_y_7 = "2951";
+					control_point_y_8 = "3854";
+					active_w = "1920";
+					active_h = "1200";
+					csi_pixel_bit_depth = "12";
+					pixel_phase = "rggb";
+					readout_orientation = "0";
+					line_length = "3924";
+					inherent_gain = "1";
+					//pix_clk_hz = "297000000";
+					pix_clk_hz = "69350400";
+					gain_factor = "10";
+					framerate_factor = "1000000";
+					exposure_factor = "1000000";
+					min_gain_val = "0";
+					max_gain_val = "270";
+					step_gain_val = "3";
+					default_gain = "270";
+					min_hdr_ratio = "16";
+					max_hdr_ratio = "16";
+					min_framerate = "2000000";
+					max_framerate = "50000000";
+					step_framerate = "1";
+					default_framerate = "15000000";
+					min_exp_time = "15";
+					max_exp_time = "100000";
+					step_exp_time = "1";
+					default_exp_time = "16650";
+					embedded_metadata_height = "1";
+				};
+				mode3 {
+					mclk_khz = "27000";
+					num_lanes = "2";
+					mode_lanes = <4>;
+					lane_polarity = "0";
+					tegra_sinterface = "serial_a";
+					vc_id = "0";
+					phy_mode = "DPHY";
+					discontinuous_clk = "yes";
+					dpcm_enable = "false";
+					cil_settletime = "0";
+										//serdes_pix_clk_hz = "3200000000";
+					serdes_pix_clk_hz ="114285714";  
+					raw_fourcc_color = "RG16";
+					raw_fourcc_mono = "Y16 ";
+					active_w = "1920";
+					active_h = "1200";
+					dynamic_pixel_bit_depth = "12";
+					csi_pixel_bit_depth = "12";
+					mode_type = "bayer";
+					pixel_phase = "rggb";
+					readout_orientation = "0";
+					line_length = "3924";
+					inherent_gain = "1";
+					//pix_clk_hz = "297000000";
+					pix_clk_hz = "69350400";
+					gain_factor = "10";
+					framerate_factor = "1000000";
+					exposure_factor = "1000000";
+					min_gain_val = "0";
+					max_gain_val = "270";
+					step_gain_val = "3";
+					default_gain = "270";
+					min_hdr_ratio = "16";
+					max_hdr_ratio = "16";
+					min_framerate = "2000000";
+					max_framerate = "50000000";
+					step_framerate = "1";
+					default_framerate = "50000000";
+					min_exp_time = "15";
+					max_exp_time = "100000";
+					step_exp_time = "1";
+					default_exp_time = "16650";
+					embedded_metadata_height = "1";
+				};
+				mode4 {
+					mclk_khz = "27000";
+					num_lanes = "2";
+					mode_lanes = <4>;
+					lane_polarity = "0";
+					tegra_sinterface = "serial_a";
+					vc_id = "0";
+					phy_mode = "DPHY";
+					discontinuous_clk = "yes";
+					dpcm_enable = "false";
+					cil_settletime = "0";
+										//serdes_pix_clk_hz = "3200000000";
+					serdes_pix_clk_hz ="114285714";  
+					raw_fourcc_color = "PWL3";
+					raw_fourcc_mono = "PWL3";
+					active_h = "1084";
+					max_framerate = "60000000";
+					default_framerate = "15000000";
+					dynamic_pixel_bit_depth = "24";
+					mode_type = "bayer_wdr_pwl";
+					num_control_point = "9";
+					control_point_x_0 = "384";
+					control_point_x_1 = "1600";
+					control_point_x_2 = "3700";
+					control_point_x_3 = "24000";
+					control_point_x_4 = "73000";
+					control_point_x_5 = "210392";
+					control_point_x_6 = "1500000";
+					control_point_x_7 = "5000000";
+					control_point_x_8 = "16777215";
+					control_point_y_0 = "384";
+					control_point_y_1 = "789";
+					control_point_y_2 = "1022";
+					control_point_y_3 = "1278";
+					control_point_y_4 = "1586";
+					control_point_y_5 = "2019";
+					control_point_y_6 = "2415";
+					control_point_y_7 = "2951";
+					control_point_y_8 = "3854";
+					active_w = "1920";
+					csi_pixel_bit_depth = "12";
+					pixel_phase = "rggb";
+					readout_orientation = "0";
+					line_length = "3924";
+					inherent_gain = "1";
+					//pix_clk_hz = "297000000";
+					pix_clk_hz = "69350400";
+					gain_factor = "10";
+					framerate_factor = "1000000";
+					exposure_factor = "1000000";
+					min_gain_val = "0";
+					max_gain_val = "270";
+					step_gain_val = "3";
+					default_gain = "270";
+					min_hdr_ratio = "16";
+					max_hdr_ratio = "16";
+					min_framerate = "2000000";
+					step_framerate = "1";
+					min_exp_time = "15";
+					max_exp_time = "100000";
+					step_exp_time = "1";
+					default_exp_time = "16650";
+					embedded_metadata_height = "1";
+				};
+				mode5 {
+					mclk_khz = "27000";
+					num_lanes = "2";
+					mode_lanes = <4>;
+					lane_polarity = "0";
+					tegra_sinterface = "serial_a";
+					vc_id = "0";
+					phy_mode = "DPHY";
+					discontinuous_clk = "yes";
+					dpcm_enable = "false";
+					cil_settletime = "0";
+										//serdes_pix_clk_hz = "3200000000";
+					serdes_pix_clk_hz ="114285714";  
+					raw_fourcc_color = "RG16";
+					raw_fourcc_mono = "Y16 ";
+					active_h = "1084";
+					max_framerate = "60000000";
+					default_framerate = "15000000";
+					active_w = "1920";
+					dynamic_pixel_bit_depth = "12";
+					csi_pixel_bit_depth = "12";
+					mode_type = "bayer";
+					pixel_phase = "rggb";
+					readout_orientation = "0";
+					line_length = "3924";
+					inherent_gain = "1";
+					//pix_clk_hz = "297000000";
+					pix_clk_hz = "69350400";
+					gain_factor = "10";
+					framerate_factor = "1000000";
+					exposure_factor = "1000000";
+					min_gain_val = "0";
+					max_gain_val = "270";
+					step_gain_val = "3";
+					default_gain = "270";
+					min_hdr_ratio = "16";
+					max_hdr_ratio = "16";
+					min_framerate = "2000000";
+					step_framerate = "1";
+					min_exp_time = "15";
+					max_exp_time = "100000";
+					step_exp_time = "1";
+					default_exp_time = "16650";
+					embedded_metadata_height = "1";
+				};*/
+				/*mode0 {
+					mclk_khz = "27000";
+					num_lanes = "2";
+					mode_lanes = <2>;
+					lane_polarity = "0";
+					tegra_sinterface = "serial_a";
+					vc_id = "0";
+					phy_mode = "DPHY";
+					discontinuous_clk = "yes";
+					dpcm_enable = "false";
+					cil_settletime = "0";
+					//serdes_pix_clk_hz = "3200000000";
+					serdes_pix_clk_hz ="100000000"; 
+					raw_fourcc_color = "PWL3";
+					raw_fourcc_mono = "PWL3";
+					active_h = "1100";
+					max_framerate = "30000000";
+					default_framerate = "30000000";
+					dynamic_pixel_bit_depth = "24";
+					mode_type = "bayer_wdr_pwl";
+					num_control_point = "9";
+					control_point_x_0 = "384";
+					control_point_x_1 = "1600";
+					control_point_x_2 = "3700";
+					control_point_x_3 = "24000";
+					control_point_x_4 = "73000";
+					control_point_x_5 = "210392";
+					control_point_x_6 = "1500000";
+					control_point_x_7 = "5000000";
+					control_point_x_8 = "16777215";
+					control_point_y_0 = "384";
+					control_point_y_1 = "789";
+					control_point_y_2 = "1022";
+					control_point_y_3 = "1278";
+					control_point_y_4 = "1586";
+					control_point_y_5 = "2019";
+					control_point_y_6 = "2415";
+					control_point_y_7 = "2951";
+					control_point_y_8 = "3854";
+					active_w = "1920";
+					csi_pixel_bit_depth = "12";
+					pixel_phase = "rggb";
+					readout_orientation = "0";
+					line_length = "2200";
+					inherent_gain = "1";
+					//pix_clk_hz = "297000000";
+					pix_clk_hz = "62208000";
+					gain_factor = "10";
+					framerate_factor = "1000000";
+					exposure_factor = "1000000";
+					min_gain_val = "0";
+					max_gain_val = "270";
+					step_gain_val = "3";
+					default_gain = "270";
+					min_hdr_ratio = "16";
+					max_hdr_ratio = "16";
+					min_framerate = "2000000";
+					step_framerate = "1";
+					min_exp_time = "15";
+					max_exp_time = "100000";
+					step_exp_time = "1";
+					default_exp_time = "16650";
+					embedded_metadata_height = "1";
+				};*/
+				 // Working: 100MHz, pix_clk 62208000, 1920 1100
+				mode0 {
+					mclk_khz = "27000";
+					num_lanes = "2";
+					mode_lanes = <2>;
+					lane_polarity = "0";
+					tegra_sinterface = "serial_a";
+					vc_id = "0";
+					phy_mode = "DPHY";
+					discontinuous_clk = "yes";
+					dpcm_enable = "false";
+					cil_settletime = "0";
+					//serdes_pix_clk_hz = "3200000000";
+					serdes_pix_clk_hz ="133333333"; 
+					raw_fourcc_color = "RG16";
+					raw_fourcc_mono = "Y16 ";
+					active_h = "1100";
+					max_framerate = "30000000";
+					default_framerate = "30000000";
+					active_w = "1920";
+					dynamic_pixel_bit_depth = "12";
+					csi_pixel_bit_depth = "12";
+					mode_type = "bayer";
+					pixel_phase = "rggb";
+					readout_orientation = "0";
+					line_length = "3924";
+					inherent_gain = "1";
+					//pix_clk_hz = "297000000";
+					pix_clk_hz = "124416000";
+					gain_factor = "10";
+					framerate_factor = "1000000";
+					exposure_factor = "1000000";
+					min_gain_val = "0";
+					max_gain_val = "270";
+					step_gain_val = "3";
+					default_gain = "270";
+					min_hdr_ratio = "16";
+					max_hdr_ratio = "16";
+					min_framerate = "2000000";
+					step_framerate = "1";
+					min_exp_time = "15";
+					max_exp_time = "100000";
+					step_exp_time = "1";
+					default_exp_time = "16650";
+					embedded_metadata_height = "1";
+				};
+			
+				ports {
+					#address-cells = <1>;
+					#size-cells = <0>;
+					port@0 {
+						reg = <0>;
+						tis_imx390_out0: endpoint {
+							port-index = <0>;
+							bus-width = <2>;
+							remote-endpoint = <&tis_imx390_csi_in0>;
+						};
+					};
+				};
+			};
+
+
+
+
+			 	tis_imx390_b: tis_imx390@1b {
+					compatible = "tis,tis_imx390";
+					reg = <0x1b>;
+					reg-tis_eeprom = <0x51>;
+					reg-nv_eeprom = <0x58>;
+					status = "okay";
+					reset-gpios = <&tis_fpdlink_b 1 GPIO_ACTIVE_HIGH>;
+					pwdn-gpios = <&tis_fpdlink_b 0 GPIO_ACTIVE_HIGH>;
+					gpoutlevel-gpios = <&tis_fpdlink_b 2 GPIO_ACTIVE_HIGH>;
+					gpoutpushpull-gpios = <&tis_fpdlink_b 3 GPIO_ACTIVE_HIGH>;
+					gpoutselect-gpios = <&tis_fpdlink_b 4 GPIO_ACTIVE_HIGH>;
+					triglvlsel-gpios = <&tis_fpdlink_b 5 GPIO_ACTIVE_HIGH>;
+					trigsrcsel-gpios = <&tis_fpdlink_b 6 GPIO_ACTIVE_HIGH>;
+					devnode = "video1";
+					physical_w = "5.640";
+					physical_h = "3.216";
+					sensor_model = "imx390";
+					use_decibel_gain = "true";
+					use_sensor_mode_id = "true";
+					fpdlink = <&tis_fpdlink_b>;
+					fpdlink_signals = "default";
+					
+					fpdlink_clkout_hz = <27000000>;
+					fpdlink_slave_map = /bits/ 8 <0x21 0x1b 0x50 0x51 0x57 0x58>;
+					fpdlink_ser_map_addr = /bits/ 8 <0x22>;
+					fpdlink_ser_lanes = <2>;
+					fpdlink_vc_map = /bits/ 8 <0x0>;
+					fpdlink_coax_pwr_gpio = /bits/ 8 <6>;
+					
+					mode0 {
+						mclk_khz = "27000";
+						num_lanes = "2";
+						mode_lanes = <2>;
+						lane_polarity = "0";
+						tegra_sinterface = "serial_b";
+						vc_id = "0";
+						phy_mode = "DPHY";
+						discontinuous_clk = "yes";
+						dpcm_enable = "false";
+						cil_settletime = "0";
+						//serdes_pix_clk_hz = "3200000000";
+						serdes_pix_clk_hz ="133333333"; 
+						raw_fourcc_color = "RG16";
+						raw_fourcc_mono = "Y16 ";
+						active_h = "1100";
+						max_framerate = "30000000";
+						default_framerate = "30000000";
+						active_w = "1920";
+						dynamic_pixel_bit_depth = "12";
+						csi_pixel_bit_depth = "12";
+						mode_type = "bayer";
+						pixel_phase = "rggb";
+						readout_orientation = "0";
+						line_length = "3924";
+						inherent_gain = "1";
+						//pix_clk_hz = "297000000";
+						pix_clk_hz = "124416000";
+						gain_factor = "10";
+						framerate_factor = "1000000";
+						exposure_factor = "1000000";
+						min_gain_val = "0";
+						max_gain_val = "270";
+						step_gain_val = "3";
+						default_gain = "270";
+						min_hdr_ratio = "16";
+						max_hdr_ratio = "16";
+						min_framerate = "2000000";
+						step_framerate = "1";
+						min_exp_time = "15";
+						max_exp_time = "100000";
+						step_exp_time = "1";
+						default_exp_time = "16650";
+						embedded_metadata_height = "1";
+					};
+					ports {
+						#address-cells = <1>;
+						#size-cells = <0>;
+						port@0 {
+							reg = <0>;
+							tis_imx390_out1: endpoint {
+								port-index = <1>;
+								bus-width = <2>;
+								remote-endpoint = <&tis_imx390_csi_in1>;
+							};
+						};
+					};
+				};
+
+
+				tis_imx390_c: tis_imx390@1c {
+					compatible = "tis,tis_imx390";
+					reg = <0x1c>;
+					reg-tis_eeprom = <0x52>;
+					reg-nv_eeprom = <0x59>;
+					status = "okay";
+					reset-gpios = <&tis_fpdlink_c 1 GPIO_ACTIVE_HIGH>;
+					pwdn-gpios = <&tis_fpdlink_c 0 GPIO_ACTIVE_HIGH>;
+					gpoutlevel-gpios = <&tis_fpdlink_c 2 GPIO_ACTIVE_HIGH>;
+					gpoutpushpull-gpios = <&tis_fpdlink_c 3 GPIO_ACTIVE_HIGH>;
+					gpoutselect-gpios = <&tis_fpdlink_c 4 GPIO_ACTIVE_HIGH>;
+					triglvlsel-gpios = <&tis_fpdlink_c 5 GPIO_ACTIVE_HIGH>;
+					trigsrcsel-gpios = <&tis_fpdlink_c 6 GPIO_ACTIVE_HIGH>;
+					devnode = "video2";
+					physical_w = "5.640";
+					physical_h = "3.216";
+					sensor_model = "imx390";
+					use_decibel_gain = "true";
+					use_sensor_mode_id = "true";
+					fpdlink = <&tis_fpdlink_c>;
+					fpdlink_signals = "default";
+					
+					fpdlink_clkout_hz = <27000000>;
+					fpdlink_slave_map = /bits/ 8 <0x21 0x1c 0x50 0x52 0x57 0x59>;
+					fpdlink_ser_map_addr = /bits/ 8 <0x23>;
+					fpdlink_ser_lanes = <2>;
+					fpdlink_vc_map = /bits/ 8 <0x0>;
+					fpdlink_coax_pwr_gpio = /bits/ 8 <6>;
+					
+					mode0 {
+						mclk_khz = "27000";
+						num_lanes = "2";
+						mode_lanes = <2>;
+						lane_polarity = "0";
+						tegra_sinterface = "serial_c";
+						vc_id = "0";
+						phy_mode = "DPHY";
+						discontinuous_clk = "yes";
+						dpcm_enable = "false";
+						cil_settletime = "0";
+						//serdes_pix_clk_hz = "3200000000";
+						serdes_pix_clk_hz ="133333333"; 
+						raw_fourcc_color = "RG16";
+						raw_fourcc_mono = "Y16 ";
+						active_h = "1100";
+						max_framerate = "30000000";
+						default_framerate = "30000000";
+						active_w = "1920";
+						dynamic_pixel_bit_depth = "12";
+						csi_pixel_bit_depth = "12";
+						mode_type = "bayer";
+						pixel_phase = "rggb";
+						readout_orientation = "0";
+						line_length = "3924";
+						inherent_gain = "1";
+						//pix_clk_hz = "297000000";
+						pix_clk_hz = "124416000";
+						gain_factor = "10";
+						framerate_factor = "1000000";
+						exposure_factor = "1000000";
+						min_gain_val = "0";
+						max_gain_val = "270";
+						step_gain_val = "3";
+						default_gain = "270";
+						min_hdr_ratio = "16";
+						max_hdr_ratio = "16";
+						min_framerate = "2000000";
+						step_framerate = "1";
+						min_exp_time = "15";
+						max_exp_time = "100000";
+						step_exp_time = "1";
+						default_exp_time = "16650";
+						embedded_metadata_height = "1";
+					};
+					/*mode0 {
+						mclk_khz = "27000";
+						num_lanes = "2";
+						mode_lanes = <2>;
+						lane_polarity = "0";
+						tegra_sinterface = "serial_c";
+						vc_id = "0";
+						phy_mode = "DPHY";
+						discontinuous_clk = "yes";
+						dpcm_enable = "false";
+						cil_settletime = "0";
+						//serdes_pix_clk_hz = "3200000000";
+						serdes_pix_clk_hz ="133333333"; 
+						raw_fourcc_color = "PWL3";
+						raw_fourcc_mono = "PWL3";
+						active_h = "1100";
+						max_framerate = "60000000";
+						default_framerate = "60000000";
+						dynamic_pixel_bit_depth = "24";
+						mode_type = "bayer_wdr_pwl";
+						num_control_point = "9";
+						control_point_x_0 = "384";
+						control_point_x_1 = "1600";
+						control_point_x_2 = "3700";
+						control_point_x_3 = "24000";
+						control_point_x_4 = "73000";
+						control_point_x_5 = "210392";
+						control_point_x_6 = "1500000";
+						control_point_x_7 = "5000000";
+						control_point_x_8 = "16777215";
+						control_point_y_0 = "384";
+						control_point_y_1 = "789";
+						control_point_y_2 = "1022";
+						control_point_y_3 = "1278";
+						control_point_y_4 = "1586";
+						control_point_y_5 = "2019";
+						control_point_y_6 = "2415";
+						control_point_y_7 = "2951";
+						control_point_y_8 = "3854";
+						active_w = "1920";
+						csi_pixel_bit_depth = "12";
+						pixel_phase = "rggb";
+						readout_orientation = "0";
+						line_length = "2200";
+						inherent_gain = "1";
+						//pix_clk_hz = "297000000";
+						pix_clk_hz = "124416000";
+						gain_factor = "10";
+						framerate_factor = "1000000";
+						exposure_factor = "1000000";
+						min_gain_val = "0";
+						max_gain_val = "270";
+						step_gain_val = "3";
+						default_gain = "270";
+						min_hdr_ratio = "16";
+						max_hdr_ratio = "16";
+						min_framerate = "2000000";
+						step_framerate = "1";
+						min_exp_time = "15";
+						max_exp_time = "100000";
+						step_exp_time = "1";
+						default_exp_time = "16650";
+						embedded_metadata_height = "1";
+					};*/
+					ports {
+						#address-cells = <1>;
+						#size-cells = <0>;
+						port@0 {
+							reg = <0>;
+							tis_imx390_out2: endpoint {
+								port-index = <2>;
+								bus-width = <2>;
+								remote-endpoint = <&tis_imx390_csi_in2>;
+							};
+						};
+					};
+				};
+
+
+				tis_imx390_d: tis_imx390@1d {
+					compatible = "tis,tis_imx390";
+					reg = <0x1d>;
+					reg-tis_eeprom = <0x53>;
+					reg-nv_eeprom = <0x5a>;
+					status = "okay";
+					reset-gpios = <&tis_fpdlink_d 1 GPIO_ACTIVE_HIGH>;
+					pwdn-gpios = <&tis_fpdlink_d 0 GPIO_ACTIVE_HIGH>;
+					gpoutlevel-gpios = <&tis_fpdlink_d 2 GPIO_ACTIVE_HIGH>;
+					gpoutpushpull-gpios = <&tis_fpdlink_d 3 GPIO_ACTIVE_HIGH>;
+					gpoutselect-gpios = <&tis_fpdlink_d 4 GPIO_ACTIVE_HIGH>;
+					triglvlsel-gpios = <&tis_fpdlink_d 5 GPIO_ACTIVE_HIGH>;
+					trigsrcsel-gpios = <&tis_fpdlink_d 6 GPIO_ACTIVE_HIGH>;
+					devnode = "video3";
+					physical_w = "5.640";
+					physical_h = "3.216";
+					sensor_model = "imx390";
+					use_decibel_gain = "true";
+					use_sensor_mode_id = "true";
+					fpdlink = <&tis_fpdlink_d>;
+					fpdlink_signals = "default";
+					
+					fpdlink_clkout_hz = <27000000>;
+					fpdlink_slave_map = /bits/ 8 <0x21 0x1d 0x50 0x53 0x57 0x5a>;
+					fpdlink_ser_map_addr = /bits/ 8 <0x24>;
+					fpdlink_ser_lanes = <2>;
+					fpdlink_vc_map = /bits/ 8 <0x0>;
+					fpdlink_coax_pwr_gpio = /bits/ 8 <6>;
+					
+					mode0 {
+						mclk_khz = "27000";
+						num_lanes = "2";
+						mode_lanes = <2>;
+						lane_polarity = "0";
+						tegra_sinterface = "serial_d";
+						vc_id = "0";
+						phy_mode = "DPHY";
+						discontinuous_clk = "yes";
+						dpcm_enable = "false";
+						cil_settletime = "0";
+						//serdes_pix_clk_hz = "3200000000";
+						serdes_pix_clk_hz ="133333333"; 
+						raw_fourcc_color = "RG16";
+						raw_fourcc_mono = "Y16 ";
+						active_h = "1100";
+						max_framerate = "30000000";
+						default_framerate = "30000000";
+						active_w = "1920";
+						dynamic_pixel_bit_depth = "12";
+						csi_pixel_bit_depth = "12";
+						mode_type = "bayer";
+						pixel_phase = "rggb";
+						readout_orientation = "0";
+						line_length = "3924";
+						inherent_gain = "1";
+						//pix_clk_hz = "297000000";
+						pix_clk_hz = "124416000";
+						gain_factor = "10";
+						framerate_factor = "1000000";
+						exposure_factor = "1000000";
+						min_gain_val = "0";
+						max_gain_val = "270";
+						step_gain_val = "3";
+						default_gain = "270";
+						min_hdr_ratio = "16";
+						max_hdr_ratio = "16";
+						min_framerate = "2000000";
+						step_framerate = "1";
+						min_exp_time = "15";
+						max_exp_time = "100000";
+						step_exp_time = "1";
+						default_exp_time = "16650";
+						embedded_metadata_height = "1";
+					};
+					ports {
+						#address-cells = <1>;
+						#size-cells = <0>;
+						port@0 {
+							reg = <0>;
+							tis_imx390_out3: endpoint {
+								port-index = <3>;
+								bus-width = <2>;
+								remote-endpoint = <&tis_imx390_csi_in3>;
+							};
+						};
+					};
+				};
+
+				tis_imx390_e: tis_imx390@1e {
+					compatible = "tis,tis_imx390";
+					reg = <0x1e>;
+					reg-tis_eeprom = <0x54>;
+					reg-nv_eeprom = <0x5b>;
+					status = "okay";
+					reset-gpios = <&tis_fpdlink_e 1 GPIO_ACTIVE_HIGH>;
+					pwdn-gpios = <&tis_fpdlink_e 0 GPIO_ACTIVE_HIGH>;
+					gpoutlevel-gpios = <&tis_fpdlink_e 2 GPIO_ACTIVE_HIGH>;
+					gpoutpushpull-gpios = <&tis_fpdlink_e 3 GPIO_ACTIVE_HIGH>;
+					gpoutselect-gpios = <&tis_fpdlink_e 4 GPIO_ACTIVE_HIGH>;
+					triglvlsel-gpios = <&tis_fpdlink_e 5 GPIO_ACTIVE_HIGH>;
+					trigsrcsel-gpios = <&tis_fpdlink_e 6 GPIO_ACTIVE_HIGH>;
+					devnode = "video4";
+					physical_w = "5.640";
+					physical_h = "3.216";
+					sensor_model = "imx390";
+					use_decibel_gain = "true";
+					use_sensor_mode_id = "true";
+					fpdlink = <&tis_fpdlink_e>;
+					fpdlink_signals = "default";
+					
+					fpdlink_clkout_hz = <27000000>;
+					fpdlink_slave_map = /bits/ 8 <0x21 0x1e 0x50 0x54 0x57 0x5b>;
+					fpdlink_ser_map_addr = /bits/ 8 <0x25>;
+					fpdlink_ser_lanes = <4>;
+					fpdlink_vc_map = /bits/ 8 <0x0>;
+					fpdlink_coax_pwr_gpio = /bits/ 8 <6>;
+					
+					mode0 {
+						mclk_khz = "27000";
+						num_lanes = "4";
+						mode_lanes = <4>;
+						lane_polarity = "0";
+						tegra_sinterface = "serial_e";
+						vc_id = "0";
+						phy_mode = "DPHY";
+						discontinuous_clk = "yes";
+						dpcm_enable = "false";
+						cil_settletime = "0";
+						//serdes_pix_clk_hz = "3200000000";
+						serdes_pix_clk_hz ="266666666"; 
+						raw_fourcc_color = "RG16";
+						raw_fourcc_mono = "Y16 ";
+						active_h = "1100";
+						max_framerate = "30000000";
+						default_framerate = "30000000";
+						active_w = "1920";
+						dynamic_pixel_bit_depth = "12";
+						csi_pixel_bit_depth = "12";
+						mode_type = "bayer";
+						pixel_phase = "rggb";
+						readout_orientation = "0";
+						line_length = "3924";
+						inherent_gain = "1";
+						//pix_clk_hz = "297000000";
+						pix_clk_hz = "124416000";
+						gain_factor = "10";
+						framerate_factor = "1000000";
+						exposure_factor = "1000000";
+						min_gain_val = "0";
+						max_gain_val = "270";
+						step_gain_val = "3";
+						default_gain = "270";
+						min_hdr_ratio = "16";
+						max_hdr_ratio = "16";
+						min_framerate = "2000000";
+						step_framerate = "1";
+						min_exp_time = "15";
+						max_exp_time = "100000";
+						step_exp_time = "1";
+						default_exp_time = "16650";
+						embedded_metadata_height = "1";
+					};
+					ports {
+						#address-cells = <1>;
+						#size-cells = <0>;
+						port@0 {
+							reg = <0>;
+							tis_imx390_out4: endpoint {
+								port-index = <4>;
+								bus-width = <4>;
+								remote-endpoint = <&tis_imx390_csi_in4>;
+							};
+						};
+					};
+				};
+
+				tis_imx390_f: tis_imx390@1f {
+					compatible = "tis,tis_imx390";
+					reg = <0x1f>;
+					reg-tis_eeprom = <0x55>;
+					reg-nv_eeprom = <0x5c>;
+					status = "okay";
+					reset-gpios = <&tis_fpdlink_f 1 GPIO_ACTIVE_HIGH>;
+					pwdn-gpios = <&tis_fpdlink_f 0 GPIO_ACTIVE_HIGH>;
+					gpoutlevel-gpios = <&tis_fpdlink_f 2 GPIO_ACTIVE_HIGH>;
+					gpoutpushpull-gpios = <&tis_fpdlink_f 3 GPIO_ACTIVE_HIGH>;
+					gpoutselect-gpios = <&tis_fpdlink_f 4 GPIO_ACTIVE_HIGH>;
+					triglvlsel-gpios = <&tis_fpdlink_f 5 GPIO_ACTIVE_HIGH>;
+					trigsrcsel-gpios = <&tis_fpdlink_f 6 GPIO_ACTIVE_HIGH>;
+					devnode = "video5";
+					physical_w = "5.640";
+					physical_h = "3.216";
+					sensor_model = "imx390";
+					use_decibel_gain = "true";
+					use_sensor_mode_id = "true";
+					fpdlink = <&tis_fpdlink_f>;
+					fpdlink_signals = "default";
+					
+					fpdlink_clkout_hz = <27000000>;
+					fpdlink_slave_map = /bits/ 8 <0x21 0x1f 0x50 0x55 0x57 0x5c>;
+					fpdlink_ser_map_addr = /bits/ 8 <0x26>;
+					fpdlink_ser_lanes = <4>;
+					fpdlink_vc_map = /bits/ 8 <0x0>;
+					fpdlink_coax_pwr_gpio = /bits/ 8 <6>;
+					
+					mode0 {
+						mclk_khz = "27000";
+						num_lanes = "4";
+						mode_lanes = <4>;
+						lane_polarity = "0";
+						tegra_sinterface = "serial_g";
+						vc_id = "0";
+						phy_mode = "DPHY";
+						discontinuous_clk = "yes";
+						dpcm_enable = "false";
+						cil_settletime = "0";
+						//serdes_pix_clk_hz = "3200000000";
+						serdes_pix_clk_hz ="266666666"; 
+						raw_fourcc_color = "RG16";
+						raw_fourcc_mono = "Y16 ";
+						active_h = "1100";
+						max_framerate = "30000000";
+						default_framerate = "30000000";
+						active_w = "1920";
+						dynamic_pixel_bit_depth = "12";
+						csi_pixel_bit_depth = "12";
+						mode_type = "bayer";
+						pixel_phase = "rggb";
+						readout_orientation = "0";
+						line_length = "3924";
+						inherent_gain = "1";
+						//pix_clk_hz = "297000000";
+						pix_clk_hz = "124416000";
+						gain_factor = "10";
+						framerate_factor = "1000000";
+						exposure_factor = "1000000";
+						min_gain_val = "0";
+						max_gain_val = "270";
+						step_gain_val = "3";
+						default_gain = "270";
+						min_hdr_ratio = "16";
+						max_hdr_ratio = "16";
+						min_framerate = "2000000";
+						step_framerate = "1";
+						min_exp_time = "15";
+						max_exp_time = "100000";
+						step_exp_time = "1";
+						default_exp_time = "16650";
+						embedded_metadata_height = "1";
+					};
+					ports {
+						#address-cells = <1>;
+						#size-cells = <0>;
+						port@0 {
+							reg = <0>;
+							tis_imx390_out5: endpoint {
+								port-index = <6>;
+								bus-width = <4>;
+								remote-endpoint = <&tis_imx390_csi_in5>;
+							};
+						};
+					};
+				};
+
+
+
+
+		};
+		lens_imx335@0 {
+			min_focus_distance = "0.0";
+			hyper_focal = "0.0";
+			focal_length = "3.04";
+			f_number = "2.0";
+			aperture = "0.0";
+		};
+
+
+	i2c@31e0000 {
+		hawk_dser: max96712_a@62 {
+			status = "disabled";
+		};
+		virtual_i2c_mux: virtual_i2c_mux@50 {
+			status = "disabled";
+			i2c@0 {
+				hawk_bmi: bmi088_a@69 {
+					status = "disabled";
+				};
+				hawk_cam0: ar0234_a@30 {
+					status = "disabled";
+				};
+				hawk_cam1: ar0234_b@31 {
+					status = "disabled";
+				};
+			};
+			i2c@1 {
+				hawk_cam2: ar0234_c@32 {
+					status = "disabled";
+				};
+				hawk_cam3: ar0234_d@33 {
+					status = "disabled";
+				};
+				hawk_cam4: ar0234_e@34 {
+					status = "disabled";
+				};
+				hawk_cam5: ar0234_f@35 {
+					status = "disabled";
+				};
+				hawk_cam6: ar0234_g@36 {
+					status = "disabled";
+				};
+				hawk_cam7: ar0234_h@37 {
+					status = "disabled";
+				};
+			};
+		};
+	};
+	/*i2c@3180000 {
+		owl_dser: max96712_b@62 {
+			status = "disabled";
+		};
+		owl_cam0: ar0234_i@30 {
+			status = "disabled";
+		};
+		owl_cam1: ar0234_j@32 {
+			status = "disabled";
+		};
+		owl_cam2: ar0234_k@34 {
+			status = "disabled";
+		};
+		owl_cam3: ar0234_l@36 {
+			status = "disabled";
+		};
+		e3326_cam0: ov5693_c@36 {
+			status = "disabled";
+		};
+		e2832_cam0: e2832@2b {
+			status = "disabled";
+		};
+		tca6408@21 {
+			status = "disabled";
+		};
+		tca9548@77 {
+			status = "disabled";
+			i2c@0 {
+				e3333_cam0: ov5693_a@36 {
+					status = "disabled";
+				};
+			};
+			i2c@1 {
+				e3333_cam1: ov5693_b@36 {
+					status = "disabled";
+				};
+			};
+			i2c@2 {
+				e3333_cam2: ov5693_c@36 {
+					status = "disabled";
+				};
+			};
+			i2c@3 {
+				e3333_cam3: ov5693_d@36 {
+					status = "disabled";
+				};
+			};
+			i2c@4 {
+				e3333_cam4: ov5693_e@36 {
+					status = "disabled";
+				};
+			};
+			i2c@5 {
+				e3333_cam5: ov5693_g@36 {
+					status = "disabled";
+				};
+			};
+		};
+		tca9546_70: tca9546@70 {
+			status = "disabled";
+			i2c@0 {
+				dual_hawk0:dual_hawk_a@18 {
+					status = "disabled";
+				};
+				dual_hawk1:dual_hawk_b@10 {
+					status = "disabled";
+				};
+				pca9570_a_24: pca9570_a@24 {
+					status = "disabled";
+				};
+				imx274_cam0: imx274_a@1a {
+					status = "disabled";
+				};
+				imx185_cam0: imx185_a@1a {
+					status = "disabled";
+				};
+				e3331_cam0: imx318_a@10 {
+					status = "disable";
+				};
+				max96712_dser: single_max96712_a@62 {
+					status = "disabled";
+				};
+				max9296_dser: max9296@48 {
+					status = "disabled";
+				};
+				max9295_prim: max9295_prim@62 {
+					status = "disabled";
+				};
+				max9295_ser0: max9295_a@40 {
+					status = "disabled";
+				};
+				max9295_ser1: max9295_b@60 {
+					status = "disabled";
+				};
+				imx390_cam0: imx390_a@1b {
+					status = "disabled";
+				};
+				imx390_cam1: imx390_b@1c {
+					status = "disabled";
+				};
+			};
+			i2c@1 {
+				dual_hawk2:dual_hawk_c@18 {
+					status = "disabled";
+				};
+				dual_hawk3:dual_hawk_d@10 {
+					status = "disabled";
+				};
+				imx274_cam1: imx274_c@1a {
+					status = "disabled";
+				};
+			};
+		};
+	};*/
+    };
+	tegra-camera-platform {
+		compatible = "nvidia, tegra-camera-platform";
+		num_csi_lanes = <16>;
+		max_lane_speed = <1500000>;
+		min_bits_per_pixel = <10>;
+		vi_peak_byte_per_pixel = <2>;
+		vi_bw_margin_pct = <25>;
+		max_pixel_rate = <240000>;
+		isp_peak_byte_per_pixel = <5>;
+		isp_bw_margin_pct = <25>;
+
+		modules {
+
+			module0 {
+				status = "okay";
+				badge = "jakku_bottomleft_imx390";
+				position = "bottomleft";
+				orientation = "1";
+				drivernode0 {
+					status = "okay";
+					pcl_id = "v4l2_sensor";
+					devname = "tis_imx390 2-001a";
+					proc-device-tree = "/proc/device-tree/bus@0/i2c@3180000/tis_imx390@1a";
+				};
+				drivernode1 {
+					status = "okay";
+					pcl_id = "v4l2_lens";
+					proc-device-tree = "/proc/device-tree/bus@0/lens_imx335@0/";
+				};
+			};
+			module1 {
+				status = "okay";
+				badge = "jakku_bottomright_imx390";
+				position = "bottomright";
+				orientation = "1";
+				drivernode0 {
+					status = "okay";
+					pcl_id = "v4l2_sensor";
+					devname = "tis_imx390 2-001b";
+					proc-device-tree = "/proc/device-tree/bus@0/i2c@3180000/tis_imx390@1b";
+				};
+				drivernode1 {
+					status = "okay";
+					pcl_id = "v4l2_lens";
+					proc-device-tree = "/proc/device-tree/bus@0/lens_imx335@0/";
+				};
+			};
+			module2 {
+				status = "okay";
+				badge = "jakku_centerleft_imx390";
+				position = "centerleft";
+				orientation = "1";
+				drivernode0 {
+					status = "okay";
+					pcl_id = "v4l2_sensor";
+					devname = "tis_imx390 2-001c";
+					proc-device-tree = "/proc/device-tree/bus@0/i2c@3180000/tis_imx390@1c";
+				};
+				drivernode1 {
+					status = "okay";
+					pcl_id = "v4l2_lens";
+					proc-device-tree = "/proc/device-tree/bus@0/lens_imx335@0/";
+				};
+			};
+
+			module3 {
+				status = "okay";
+				badge = "jakku_centerright_imx390";
+				position = "centerright";
+				orientation = "1";
+				drivernode0 {
+					status = "okay";
+					pcl_id = "v4l2_sensor";
+					devname = "tis_imx390 2-001d";
+					proc-device-tree = "/proc/device-tree/bus@0/i2c@3180000/tis_imx390@1d";
+				};
+				drivernode1 {
+					status = "okay";
+					pcl_id = "v4l2_lens";
+					proc-device-tree = "/proc/device-tree/bus@0/lens_imx335@0/";
+				};
+			};
+			module4 {
+				status = "okay";
+				badge = "jakku_topleft_imx390";
+				position = "topleft";
+				orientation = "1";
+				drivernode0 {
+					status = "okay";
+					pcl_id = "v4l2_sensor";
+					devname = "tis_imx390 2-001e";
+					proc-device-tree = "/proc/device-tree/bus@0/i2c@3180000/tis_imx390@1e";
+				};
+				drivernode1 {
+					status = "okay";
+					pcl_id = "v4l2_lens";
+					proc-device-tree = "/proc/device-tree/bus@0/lens_imx335@0/";
+				};
+			};
+			module5 {
+				status = "okay";
+				badge = "jakku_topright_imx390";
+				position = "topright";
+				orientation = "1";
+				drivernode0 {
+					status = "okay";
+					pcl_id = "v4l2_sensor";
+					devname = "tis_imx390 2-001f";
+					proc-device-tree = "/proc/device-tree/bus@0/i2c@3180000/tis_imx390@1f";
+				};
+				drivernode1 {
+					status = "okay";
+					pcl_id = "v4l2_lens";
+					proc-device-tree = "/proc/device-tree/bus@0/lens_imx335@0/";
+				};
+			};
+
+
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			/*cam_module0: module0 {
+				status = "disabled";
+				cam_module0_drivernode0: drivernode0 {
+					status = "disabled";
+				};
+				cam_module0_drivernode1: drivernode1 {
+					status = "disabled";
+					pcl_id = "v4l2_lens";
+				};
+			};
+			cam_module1: module1 {
+				status = "disabled";
+				cam_module1_drivernode0: drivernode0 {
+					status = "disabled";
+				};
+				cam_module1_drivernode1: drivernode1 {
+					status = "disabled";
+					pcl_id = "v4l2_lens";
+				};
+			};
+			cam_module2: module2 {
+				status = "disabled";
+				cam_module2_drivernode0: drivernode0 {
+					status = "disabled";
+				};
+				cam_module2_drivernode1: drivernode1 {
+					status = "disabled";
+					pcl_id = "v4l2_lens";
+				};
+			};
+			cam_module3: module3 {
+				status = "disabled";
+				cam_module3_drivernode0: drivernode0 {
+					status = "disabled";
+				};
+				cam_module3_drivernode1: drivernode1 {
+					status = "disabled";
+					pcl_id = "v4l2_lens";
+				};
+			};
+			cam_module4: module4 {
+				status = "disabled";
+				cam_module4_drivernode0: drivernode0 {
+					status = "disabled";
+				};
+				cam_module4_drivernode1: drivernode1 {
+					status = "disabled";
+					pcl_id = "v4l2_lens";
+				};
+			};
+			cam_module5: module5 {
+				status = "disabled";
+				cam_module5_drivernode0: drivernode0 {
+					status = "disabled";
+				};
+				cam_module5_drivernode1: drivernode1 {
+					status = "disabled";
+					pcl_id = "v4l2_lens";
+				};
+			};
+			cam_module6: module6 {
+				status = "disabled";
+				cam_module6_drivernode0: drivernode0 {
+					status = "disabled";
+				};
+				cam_module6_drivernode1: drivernode1 {
+					status = "disabled";
+					pcl_id = "v4l2_lens";
+				};
+			};
+			cam_module7: module7 {
+				status = "disabled";
+				cam_module7_drivernode0: drivernode0 {
+					status = "disabled";
+				};
+				cam_module7_drivernode1: drivernode1 {
+					status = "disabled";
+					pcl_id = "v4l2_lens";
+				};
+			};
+			cam_module8: module8 {
+				status = "disabled";
+				cam_module8_drivernode0: drivernode0 {
+					status = "disabled";
+				};
+				cam_module8_drivernode1: drivernode1 {
+					status = "disabled";
+					pcl_id = "v4l2_lens";
+				};
+			};
+			cam_module9: module9 {
+				status = "disabled";
+				cam_module9_drivernode0: drivernode0 {
+					status = "disabled";
+				};
+				cam_module9_drivernode1: drivernode1 {
+					status = "disabled";
+					pcl_id = "v4l2_lens";
+				};
+			};
+			cam_module10: module10 {
+				status = "disabled";
+				cam_module10_drivernode0: drivernode0 {
+					status = "disabled";
+				};
+				cam_module10_drivernode1: drivernode1 {
+					status = "disabled";
+					pcl_id = "v4l2_lens";
+				};
+			};
+			cam_module11: module11 {
+				status = "disabled";
+				cam_module11_drivernode0: drivernode0 {
+					status = "disabled";
+				};
+				cam_module11_drivernode1: drivernode1 {
+					status = "disabled";
+					pcl_id = "v4l2_lens";
+				};
+			};*/
+		};
+	};
+};
+
+		
+		};
+	};
