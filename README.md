@@ -51,7 +51,7 @@ These are the required tools to build and upload the Linux Image. The listed
 packages are the names for the Ubuntu / Debian distributions and might be 
 different for other distributions.
 
-There are several packages required for the installation. See the [Required_packages.txt](utils/Required_packages.txt) for a
+There are several packages required for the installation. See the [Required_packages.txt](util/required_packages.txt) for a
 full list. This file is used to generate a package inspection script to verify that you have 
 the required DPKGs installed. It will prompt you to install any missing packages.
 
